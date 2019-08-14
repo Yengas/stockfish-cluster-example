@@ -14,5 +14,5 @@ for (let i = 0; i < NUM_OF_WORKERS; i++) {
 	clusterMaster.addWorker(worker);
 }
 
-const chessBackend = require('../child_process');
+const chessBackend = require('../child_process')(clusterMaster);
 (isBenchmark ? benchmark : server)(chessBackend);
