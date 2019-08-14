@@ -1,0 +1,15 @@
+{
+  "name": "chess-node",
+  "version": "1.0.0",
+  "description": "Example chess engine usage with websocket.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yengas",
+  "license": "ISC",
+  "dependencies": {
+    "stockfish": "^10.0.2",
+    "uuid": "^3.3.2"
+  }
+}
