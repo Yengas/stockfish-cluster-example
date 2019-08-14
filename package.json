@@ -4,7 +4,11 @@
   "description": "Example chess engine usage with websocket.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm start child_process",
+    "child_process": "node entrypoints/child_process.js",
+    "child_process:benchmark": "BENCHMARK=true npm run child_process",
+    "single": "node entrypoints/single.js",
+    "single:benchmark": "BENCHMARK=true npm run single"
   },
   "author": "Yengas",
   "license": "ISC",

@@ -3,6 +3,7 @@ async function benchmark(chessBackend) {
 	const level = 20;
 	const benchmarkCount = 10000;
 	const currentTime = Date.now();
+	console.log('starting the benchmark');
 
 	await Promise.all([...new Array(benchmarkCount)].map(() => chessBackend.getBestMove(fen, level)));
 
