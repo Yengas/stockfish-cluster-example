@@ -7,6 +7,7 @@ async function benchmark(chessBackend) {
 	await Promise.all([...new Array(benchmarkCount)].map(() => chessBackend.getBestMove(fen, level)));
 
 	console.log(`took ${Date.now() - currentTime} ms`);
+	process.exit(0)
 }
 
 module.exports = benchmark;

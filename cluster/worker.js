@@ -5,7 +5,6 @@ async function createReply({ fen, level, depth }) {
 	return getBestMove(fen, level, depth);
 }
 
-const workQueue = [];
 let inProgress = false;
 
 function requestWork() {
@@ -16,45 +15,26 @@ function sendResponse(workId, reply) {
 	process.send({ type: WorkerActions.ReplyBestMove, workId, reply });
 }
 
-async function dequeueWorkAndProcess() {
-	if (workQueue.length === 0) throw new Error('work queue is empty, can not process anything');
-	const { id: workId, params } = workQueue.shift();
+async function doWork({ id: workId, params }) {
+	// can not handle more than one work at once, because there is one chess engine per worker
+	if (inProgress === true) throw new Error('can not process more than one at the same time');
+	inProgress = true;
 
 	try {
 		const reply = await createReply(params);
 
 		sendResponse(workId, reply);
 	} catch(err) {
-		// not re-queuing work for cluster POC, see queue version
-		console.error(`could not process workId: ${workId}, err:`, err.message)
-	}
-}
-
-async function doWork() {
-	// can not handle more than one work at once, because there is one chess engine per worker
-	if (inProgress === true || workQueue.length === 0) return false;
-	inProgress = true;
-
-	try {
-		await dequeueWorkAndProcess();
-	} catch(err) {
-		console.error('there was an error when dequeuing work:', err.message);
+		console.error('there was an error when processing work:', err.message);
 	} finally {
 		inProgress = false;
 	}
-
-	if (workQueue.length > 0) setTimeout(doWork, 0);
-	else requestWork();
-}
-
-async function handleIncomingWork(work) {
-	workQueue.push(work);
-	return doWork();
 }
 
 process.on('message', async (action) => {
 	if (action.type === MasterActions.SendWork) {
-		handleIncomingWork(action.work).catch(console.error);
+		await doWork(action.work).catch(console.error);
+		requestWork();
 	}
 });
 
