@@ -12,7 +12,8 @@
     "single": "node entrypoints/single.js",
     "single:benchmark": "BENCHMARK=true npm run single",
     "queue": "node entrypoints/queue.js",
-    "queue:benchmark": "BENCHMARK=true npm run queue"
+    "queue:benchmark": "BENCHMARK=true npm run queue",
+    "client": "node client.js"
   },
   "author": "Yengas",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "bee-queue": "^1.2.2",
     "stockfish": "^10.0.2",
     "testcontainers": "^1.2.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "ws": "^7.1.2"
   }
 }
