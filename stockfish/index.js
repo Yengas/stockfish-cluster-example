@@ -32,7 +32,12 @@ module.exports = () => {
 		});
 	}
 
+	function quit() {
+		stockfish.postMessage('quit');
+	}
+
 	return {
 		getBestMove,
+		quit,
 	};
 };

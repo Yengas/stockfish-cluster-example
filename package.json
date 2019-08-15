@@ -7,6 +7,8 @@
     "start": "npm start child_process",
     "child_process": "node entrypoints/child_process.js",
     "child_process:benchmark": "BENCHMARK=true npm run child_process",
+    "per_call": "node entrypoints/per_call.js",
+    "per_call:benchmark": "BENCHMARK=true npm run per_call",
     "single": "node entrypoints/single.js",
     "single:benchmark": "BENCHMARK=true npm run single"
   },
