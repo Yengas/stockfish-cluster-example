@@ -1,6 +1,5 @@
-const benchmark = require('../benchmark');
-const server = require('../index');
-const isBenchmark = process.env.BENCHMARK === 'true';
+// entrypoint for a single process that queues getBestMove requests and processes them one by one with a single engine
+const bootstrap = require('./bootstrap');
 const chessBackend = require('../single');
 
-(isBenchmark ? benchmark : server)(chessBackend);
+bootstrap(chessBackend).catch(console.error);

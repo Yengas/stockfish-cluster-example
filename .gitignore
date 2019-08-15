@@ -144,3 +144,6 @@ tags
 
 # Intellij IDEA
 .idea/
+
+# auto generated config file
+queue/config.json

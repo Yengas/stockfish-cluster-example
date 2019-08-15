@@ -10,12 +10,16 @@
     "per_call": "node entrypoints/per_call.js",
     "per_call:benchmark": "BENCHMARK=true npm run per_call",
     "single": "node entrypoints/single.js",
-    "single:benchmark": "BENCHMARK=true npm run single"
+    "single:benchmark": "BENCHMARK=true npm run single",
+    "queue": "node entrypoints/queue.js",
+    "queue:benchmark": "BENCHMARK=true npm run queue"
   },
   "author": "Yengas",
   "license": "ISC",
   "dependencies": {
+    "bee-queue": "^1.2.2",
     "stockfish": "^10.0.2",
+    "testcontainers": "^1.2.0",
     "uuid": "^3.3.2"
   }
 }

@@ -1,6 +1,5 @@
-const benchmark = require('../benchmark');
-const server = require('../index');
-const isBenchmark = process.env.BENCHMARK === 'true';
+// entrypoint for the chess backend that creates an engine per every getBestMove call
+const bootstrap = require('./bootstrap');
 const chessBackend = require('../per_call');
 
-(isBenchmark ? benchmark : server)(chessBackend);
+bootstrap(chessBackend).catch(console.error);
