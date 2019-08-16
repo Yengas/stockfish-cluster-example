@@ -1,23 +1,13 @@
 const { getBestMove } = require('../stockfish')();
-const { WorkerActions, MasterActions } = require('./constants');
-
-async function createReply({ fen, level, depth }) {
-	return getBestMove(fen, level, depth);
-}
-
-function requestWork() {
-	process.send({ type: WorkerActions.RequestWork });
-}
+const { MasterActions, WorkerActions } = require('./constants');
 
 function sendResponse(workId, reply) {
 	process.send({ type: WorkerActions.ReplyBestMove, workId, reply });
 }
 
-let work = Promise.resolve();
-
-async function doWork({ id: workId, params }) {
+async function findBestMoveAndSendReply({ id: workId, params: { fen, level, depth } }) {
 	try {
-		const reply = await createReply(params);
+		const reply = await getBestMove(fen, level, depth);
 
 		sendResponse(workId, reply);
 	} catch(err) {
@@ -25,15 +15,13 @@ async function doWork({ id: workId, params }) {
 	}
 }
 
+let work = Promise.resolve();
+
 process.on('message', async (action) => {
 	if (action.type === MasterActions.SendWork) {
-		work = work.then(() => {
-			return doWork(action.work)
+		work = work.then(() => (
+			findBestMoveAndSendReply(action.work)
 				.catch(console.error)
-				.then(() => requestWork());
-		});
+		));
 	}
 });
-
-// initial work request
-requestWork();

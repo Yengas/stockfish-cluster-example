@@ -1,23 +1,15 @@
 const uuidv4 = require('uuid/v4');
-const { MasterActions, WorkerActions, WorkerStatus } = require('./constants');
+const { MasterActions, WorkerActions } = require('./constants');
 
 const workWaitingMap = new Map();
-const workerInfos = [];
-const workQueue = [];
+const workers = [];
 
 module.exports = {
 	addWorker(worker) {
-		const workerInfo = { worker, status: WorkerStatus.Working };
-		workerInfos.push(workerInfo);
+		workers.push(worker);
 
 		worker.on('message', (action) => {
-			if (action.type === WorkerActions.RequestWork) {
-				if (workQueue.length > 0) {
-					worker.send({ type: MasterActions.SendWork, work: workQueue.shift() });
-				} else {
-					workerInfo.status = WorkerStatus.WantsWork;
-				}
-			} else if (action.type === WorkerActions.ReplyBestMove) {
+			if (action.type === WorkerActions.ReplyBestMove) {
 				const { workId, reply } = action;
 				const waitingFunctions = workWaitingMap.get(workId);
 				workWaitingMap.delete(workId);
@@ -29,16 +21,10 @@ module.exports = {
 	},
 	addWork(params) {
 		const workId = uuidv4();
-		const workerInfo = workerInfos.find(({ status }) => status === WorkerStatus.WantsWork);
+		const worker = workers[Math.floor(Math.random() * workers.length)];
 		const work = { id: workId, params };
 
-		if (workerInfo) {
-			workerInfo.status = WorkerStatus.Working;
-			workerInfo.worker.send({ type: MasterActions.SendWork, work })
-		} else {
-			workQueue.push(work);
-		}
-
+		worker.send({ type: MasterActions.SendWork, work });
 		return workId;
 	},
 	waitWorkReply(workId) {
