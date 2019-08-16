@@ -8,6 +8,7 @@ A websocket server and a client is provided, where the client asks for the next 
 - *per_call* a stockfish engine is created per socket call. Since the library does not support disposing of the module, this will result in a memory leak and an eventual OOM.
 - *single* a single stockfish engine is created for the whole process. All analysis requests are processed one by one. This will cause the analysis to get slower as the client count increases. And if you don't do it with a worker thread/process, it may affect server performance.
 - *child_process* creates worker processes on the same host, according to the CPU count of the machine. IPC channel is built between these workers, and the analysis work is distributed between the workers.
+- *rest* creates [fastify](https://github.com/fastify/fastify) REST APIs and uses [axios](https://github.com/axios/axios) get requests to communicate from the master process to worker processes.
 - *queue* a redis instance and [bee-queue](https://github.com/bee-queue/bee-queue) is used to distribute work to worker processes. With this, worker processes can be created on multiple machines. And using an intermediate queue technology, makes it possible to use some other language than node.js for the stockfish analysis.
 
 ## Running
