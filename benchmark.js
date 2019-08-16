@@ -5,7 +5,11 @@ async function benchmark(chessBackend) {
 	const currentTime = Date.now();
 	console.log('starting the benchmark');
 
-	await Promise.all([...new Array(benchmarkCount)].map(() => chessBackend.getBestMove(fen, level)));
+	try {
+		await Promise.all([...new Array(benchmarkCount)].map(() => chessBackend.getBestMove(fen, level)));
+	} catch (err) {
+		console.log(`benchmark failed:`, err.message);
+	}
 
 	console.log(`took ${Date.now() - currentTime} ms`);
 }

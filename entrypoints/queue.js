@@ -1,5 +1,5 @@
 // entrypoint for running workers with the independent process strategy. a redis will be created that handles
-// communication between worker and master process
+// communication between worker and master process will be done via redis.
 const bootstrap = require('./bootstrap');
 const os = require('os');
 const child_process = require('child_process');
