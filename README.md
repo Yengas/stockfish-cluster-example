@@ -24,4 +24,6 @@ server says: c6d5
 ```
 
 ## Benchmark
-To test the performance of the strategies, you can run `npm run [strategy]:benchmark`, e.g. `npm run child_process:benchmark`. This will run 10.000 analysis requests in parallel to the strategy you chose, and you can see the time it takes. On my machine; *per_call* dies because of OOM, *single* takes approx. 3 minutes, *child_process* takes 20 seconds, and *queue* takes around 30 seconds.
+To test the performance of the strategies, you can run `npm run [strategy]:benchmark`, e.g. `npm run child_process:benchmark`. This will run 1.000 analysis requests in parallel to the strategy you chose, and you can see the time it takes. On my machine; *per_call* dies because of OOM, *single* takes approx. 3 minutes, *child_process* takes 20 seconds, and *queue* takes around 30 seconds.
+
+To try with different number of analysis requests, run: `BENCHMARK_ANALYSIS_COUNT=100 npm run child_process:benchmark`.
