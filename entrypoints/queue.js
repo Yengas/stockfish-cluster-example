@@ -26,7 +26,7 @@ async function main() {
 
 	await bootstrap(chessBackend).catch(console.error);
 
-	[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach(event => {
+	[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `SIGTERM`].forEach(event => {
 		process.on(event, () => redisContainer.stop().catch(() => {}));
 		workerProcesses.forEach((worker) => worker.kill());
 	});

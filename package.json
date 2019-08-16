@@ -1,5 +1,5 @@
 {
-  "name": "chess-node",
+  "name": "stockfish-cluster-example",
   "version": "1.0.0",
   "description": "Example chess engine usage with websocket.",
   "main": "index.js",

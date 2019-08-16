@@ -19,7 +19,8 @@ function stop() {
 	workers.forEach(worker => worker.kill());
 }
 
-[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach(event => {
+
+[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `SIGTERM`].forEach(event => {
 	process.on(event, () => stop());
 });
 

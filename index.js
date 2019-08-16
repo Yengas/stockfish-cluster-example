@@ -1,8 +1,9 @@
 const url = require('url');
 const { Server: WebSocketServer } = require('ws');
-const wss = new WebSocketServer({ port: 8080 });
 
 function server(chessBackend) {
+	const wss = new WebSocketServer({ port: 8080 });
+
 	wss.on('connection', (ws, req) => {
 		const { query: { level, depth } } = url.parse(req.url, true);
 
@@ -18,7 +19,7 @@ function server(chessBackend) {
 	});
 
 
-	[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `uncaughtException`, `SIGTERM`].forEach(event => {
+	[`exit`, `SIGINT`, `SIGUSR1`, `SIGUSR2`, `SIGTERM`].forEach(event => {
 		process.on(event, () => wss.close());
 	});
 
